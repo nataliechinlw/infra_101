@@ -1,9 +1,5 @@
 ---
 - hosts: all
-  remote_user: vagrant
-  become: yes
-  become_user: su
   tasks:
-    - name: task1
+    - name: Run bootstrap.sh
       shell: /vagrant/bootstrap.sh
-...
