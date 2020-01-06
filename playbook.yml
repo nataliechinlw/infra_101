@@ -2,7 +2,14 @@
 - hosts: all
   become: yes
   become_user: root
+  vars:
+    app:
+      greeting: "woof"
+      title: "meow"
   tasks:
+    - name: Generate config file
+      shell: /vagrant/generate-config.sh $greeting $title
+      environment: "{{ app }}"
     - name: Run bootstrap.sh
       shell: /vagrant/bootstrap.sh
       register: output
