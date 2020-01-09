@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  become: yes
+  become_user: root
+  vars:
+    app:
+      greeting: "growl"
+      title: "meow"
+  tasks:
+    - name: Install java
+      apt:
+        force_apt_get: yes
+        name: default-jre
+    - name: Add appmgr group
+      group:
+        name: appmgr
+    - name: Add jarapps user
+      user:
+        name: jarapps
+        group: appmgr
+        system: yes
+        shell: /bin/nologin
+    - name: Create /apps/jar if non-existent
+      file:
+        path: /apps/jar
+        state: directory
+        owner: jarapps
+    - name: Download jar file
+      get_url:
+        url: https://github.com/Thoughtworks-SEA-Capability/Infrastructure-101-Pathway/blob/master/week1/hello-spring-boot-0.1.0.jar?raw=true
+        dest: /apps/jar
+    - name: Generate application.properties file
+      template:
+        src: templates/app.properties.j2
+        dest: /apps/jar/hello-spring-boot.properties
+    - name: Create hello-spring-boot service unit
+      template:
+        src: templates/hello-spring-boot.service.j2
+        dest: /etc/systemd/system/hello-spring-boot.service
+    - name: Start hello-spring-boot service
+      service:
+        name: hello-spring-boot
+        state: started
