@@ -86,3 +86,8 @@ resource "aws_instance" "ec2" {
     ]
   }
 }
+
+resource "aws_eip" "ip" {
+  vpc      = true
+  instance = aws_instance.ec2.id
+}
