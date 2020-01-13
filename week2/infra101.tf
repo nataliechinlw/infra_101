@@ -44,7 +44,7 @@ resource "aws_security_group_rule" "allow_traffic" {
   type              = "ingress"
   from_port         = 8080
   to_port           = 8080
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = ["0.0.0.0/0"] #Edit this to whitelist IP addresses
   protocol          = "all"
   description       = "traffic rule"
 }
