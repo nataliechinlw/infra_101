@@ -1,10 +1,22 @@
 provider "aws" {
-  profile = "default"
-  region  = "us-east-1"
+  profile = "natalie.chin"
+  region  = "ap-southeast-1"
+}
+
+resource "aws_subnet" "infra101_subnet" {
+  vpc_id     = aws_security_group.infra101_group.vpc_id
+  cidr_block = "172.31.1.0/24"
+
+  tags = {
+    Name = "Infra101"
+  }
 }
 
 resource "aws_security_group" "infra101_group" {
-  description = "Allow ssh for Infra101"
+  description = "Security group for Infra101"
+  tags = {
+    Name = "infra101-group"
+  }
 }
 
 resource "aws_security_group_rule" "allow_ssh" {
@@ -44,50 +56,16 @@ resource "aws_key_pair" "infra101_terraform_key" {
 
 resource "aws_instance" "ec2" {
   key_name               = "infra101_terraform_key"
-  ami                    = "ami-04763b3055de4860b"
+  ami                    = "ami-0ee0b284267ea6cde"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.infra101_group.id]
+  tags                   = { Name = "infra101" }
+  subnet_id              = aws_subnet.infra101_subnet.id
 
-  connection {
-    type        = "ssh"
-    user        = "ubuntu"
-    private_key = file("./.ssh/infra101")
-    host        = self.public_ip
-  }
-
-  provisioner "file" {
-    source      = "playbook.yml"
-    destination = "playbook.yml"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir templates"
-    ]
-  }
-
-  provisioner "file" {
-    source      = "templates/app.properties.j2"
-    destination = "templates/app.properties.j2"
-  }
-
-  provisioner "file" {
-    source      = "templates/hello-spring-boot.service.j2"
-    destination = "templates/hello-spring-boot.service.j2"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y software-properties-common",
-      "sudo apt-add-repository --yes --update ppa:ansible/ansible",
-      "sudo apt-get install --yes ansible",
-      "ansible-playbook playbook.yml"
-    ]
-  }
+  user_data = file("bootstrap.sh")
 }
 
 resource "aws_eip" "ip" {
-  vpc      = true
   instance = aws_instance.ec2.id
+  vpc      = true
 }
