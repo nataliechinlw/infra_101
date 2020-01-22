@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cat-deployment
+  labels:
+    type: cat
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: cat
+  template:
+    metadata:
+      labels:
+        type: cat
+    spec:
+      containers:
+        - name: cat-container
+          image: janesee3/cat-application:1
+          ports:
+            - containerPort: 8080
