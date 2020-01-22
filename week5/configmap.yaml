@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cat-config
+data:
+  DO_YOU_LIKE_CATS: "yes"
+  CATS_URL: "http://$(CAT_SERVICE_SERVICE_HOST):$(CAT_SERVICE_SERVICE_PORT)/cats"

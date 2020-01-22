@@ -10,6 +10,9 @@ spec:
       image: janesee3/meow-application:1
       env:
         - name: DO_YOU_LIKE_CATS
-          value: "yes"
+          valueFrom:
+            configMapKeyRef:
+              name: cat-config
+              key: DO_YOU_LIKE_CATS
         - name: CATS_URL
           value: "http://$(CAT_SERVICE_SERVICE_HOST):$(CAT_SERVICE_SERVICE_PORT)/cats"
