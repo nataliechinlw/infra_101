@@ -11,3 +11,5 @@ spec:
       env:
         - name: DO_YOU_LIKE_CATS
           value: "yes"
+        - name: CATS_URL
+          value: "http://$(CAT_SERVICE_SERVICE_HOST):$(CAT_SERVICE_SERVICE_PORT)/cats"
