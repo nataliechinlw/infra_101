@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cat-pod
+  name: meow-pod
   labels:
-    type: cat
+    type: meow
 spec:
   containers:
-    - name: cat-container
-      image: janesee3/cat-application:1
-      ports:
-        - containerPort: 8080
+    - name: meow-container
+      image: janesee3/meow-application:1
+      env:
+        - name: DO_YOU_LIKE_CATS
+          value: "yes"
