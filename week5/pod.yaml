@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cat-pod
+  labels:
+    type: cat
+spec:
+  containers:
+    - name: cat-container
+      image: janesee3/cat-application:1
+      ports:
+        - containerPort: 8080
