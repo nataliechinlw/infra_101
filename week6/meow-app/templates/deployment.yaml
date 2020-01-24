@@ -24,7 +24,7 @@ spec:
             - name: DO_YOU_LIKE_CATS
               value: "yes"
             - name: CATS_URL
-              value: "http://cat-service:8080/cats"
+              value: "http://cat-application-service:8080/cats"
           readinessProbe:
             httpGet:
               path: {{ .Values.pod.path }}

@@ -22,18 +22,17 @@ spec:
               containerPort: 8080
           readinessProbe:
             httpGet:
-              path: /cats
+              path: {{ .Values.pod.path }}
               port: exposed-port
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cat-service
+  name: {{ include "cat-application.name" . }}-service
 spec:
   type: NodePort
   selector:
     {{- include "cat-application.labels" . | nindent 4 }}
   ports:
     - protocol: TCP
-      port: 8080
-      name: cat-service
+      port: {{ .Values.service.port }}

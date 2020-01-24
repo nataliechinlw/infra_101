@@ -1,3 +1,9 @@
 replicaCount: 5
 image:
   repository: janesee3/cat-application:1
+pod:
+  path: /cats
+service:
+  port: 8080
+ingress:
+  host: a6234ccf43e6f11eab63c024d2ff4f4a-597942603.us-west-2.elb.amazonaws.com
