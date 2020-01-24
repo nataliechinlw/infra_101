@@ -24,15 +24,3 @@ spec:
             httpGet:
               path: {{ .Values.pod.path }}
               port: exposed-port
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "cat-application.name" . }}-service
-spec:
-  type: NodePort
-  selector:
-    {{- include "cat-application.labels" . | nindent 4 }}
-  ports:
-    - protocol: TCP
-      port: {{ .Values.service.port }}
