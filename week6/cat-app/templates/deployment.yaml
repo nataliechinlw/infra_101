@@ -30,14 +30,10 @@ kind: Service
 metadata:
   name: cat-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     {{- include "cat-application.labels" . | nindent 4 }}
   ports:
     - protocol: TCP
       port: 8080
       name: cat-service
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-      name: public-cat-service
