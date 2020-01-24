@@ -1,3 +1,5 @@
 replicaCount: 3
 image:
   repository: janesee3/meow-application:1
+service:
+  port: meow-port

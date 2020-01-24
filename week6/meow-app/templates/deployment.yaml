@@ -18,7 +18,7 @@ spec:
         - name: meow-container
           image: {{ .Values.image.repository }}
           ports:
-            - name: meow-port
+            - name: {{ .Values.service.port }}
               containerPort: 8080
           env:
             - name: DO_YOU_LIKE_CATS
@@ -28,16 +28,4 @@ spec:
           readinessProbe:
             httpGet:
               path: /meow
-              port: meow-port
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meow-service
-spec:
-  type: NodePort
-  selector:
-    {{- include "meow-application.labels" . | nindent 4 }}
-  ports:
-    - port: 80
-      targetPort: meow-port
+              port: {{ .Values.service.port }}
