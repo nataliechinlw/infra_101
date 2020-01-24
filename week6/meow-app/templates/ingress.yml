@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: meow-ingress
+  name: {{ include "meow-application.name" . }}-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-    - host: a6234ccf43e6f11eab63c024d2ff4f4a-597942603.us-west-2.elb.amazonaws.com
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /meow
+          - path: {{ .Values.pod.path }}
             backend:
-              serviceName: meow-service
-              servicePort: 80
+              serviceName: {{ include "meow-application.name" . }}-service
+              servicePort: {{ .Values.service.port }}

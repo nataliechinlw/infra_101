@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: meow-service
+  name: {{ include "meow-application.name" . }}-service
 spec:
   type: NodePort
   selector: {{- include "meow-application.labels" . | nindent 4 }}
   ports:
-    - port: 80
-      targetPort: {{ .Values.service.port }}
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}

@@ -18,7 +18,7 @@ spec:
         - name: meow-container
           image: {{ .Values.image.repository }}
           ports:
-            - name: {{ .Values.service.port }}
+            - name: {{ .Values.service.targetPort }}
               containerPort: 8080
           env:
             - name: DO_YOU_LIKE_CATS
@@ -27,5 +27,5 @@ spec:
               value: "http://cat-service:8080/cats"
           readinessProbe:
             httpGet:
-              path: /meow
-              port: {{ .Values.service.port }}
+              path: {{ .Values.pod.path }}
+              port: {{ .Values.service.targetPort }}

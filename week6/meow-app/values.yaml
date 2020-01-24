@@ -1,5 +1,10 @@
 replicaCount: 3
 image:
   repository: janesee3/meow-application:1
+pod:
+  path: /meow
 service:
-  port: meow-port
+  port: 80
+  targetPort: meow-port
+ingress:
+  host: a6234ccf43e6f11eab63c024d2ff4f4a-597942603.us-west-2.elb.amazonaws.com
