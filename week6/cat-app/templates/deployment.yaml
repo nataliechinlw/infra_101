@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cat-application.fullname" . }}-deployment
+  labels:
+    {{- include "cat-application.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount | default 2 }}
+  selector:
+    matchLabels:
+      {{- include "cat-application.labels" . | nindent 6 }}      
+  template:
+    metadata:
+      labels:
+        {{- include "cat-application.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: cat-container
+          image: {{ .Values.image.repository }}
+          ports:
+            - name: exposed-port
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /cats
+              port: exposed-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cat-service
+spec:
+  type: LoadBalancer
+  selector:
+    {{- include "cat-application.labels" . | nindent 4 }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      name: cat-service
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: public-cat-service

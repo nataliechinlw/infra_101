@@ -1,0 +1,3 @@
+replicaCount: 3
+image:
+  repository: janesee3/meow-application:1
