@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: gocd-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: devsecops-ingress-alb-267862982.ap-southeast-1.elb.amazonaws.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: gocd-server
+              servicePort: 31113
