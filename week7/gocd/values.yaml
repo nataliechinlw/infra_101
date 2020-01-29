@@ -4,3 +4,6 @@ server:
       kubernetes.io/ingress.class: nginx
     hosts:
       - gocd.infrastructure-sandbox.com
+
+agent:
+  replicaCount: 2
